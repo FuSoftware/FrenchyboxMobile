@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
-
-class _LoginData {
-  String username = '';
-  String password = '';
-}
-
+import 'login_controller.dart';
+import 'ponybox.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -22,23 +13,22 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final String _urlLogin = "https://www.frenchy-ponies.fr/ucp.php?mode=login";
-  final String _urlToken = "https://www.frenchy-ponies.fr/ponybox/pb-include.php";
-  final Dio dio = new Dio();
-  _LoginData _data = new _LoginData();
+  String username;
+  String password;
 
   void login() async {
-    dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
-    dio.options.baseUrl = "https://www.frenchy-ponies.fr/";
-    dio.post("ucp.php?mode=login", data: {
-      'username':_data.username,
-      'password':_data.password,
-      'login':'Connexion'
-    }).then((response){
-      //dio.get(_urlToken).then((Response response){
-        //print(response.data.toString());
-      //});
+    LoginController.login(username, password).then((dynamic value){
+      if(value == null){
+        print('Could not login');
+      }else{
+        ponyboxTest(value['sid'], value['token']);
+      }
     });
+  }
+
+  void ponyboxTest(String sid, String token){
+    Ponybox p = Ponybox(sid, token);
+    p.connect();
   }
 
   @override
@@ -55,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 new TextFormField(
                     onSaved: (value) {
-                      this._data.username = value;
+                      this.username = value;
                     },
                     keyboardType: TextInputType.text,
                     decoration: new InputDecoration(
@@ -65,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 new TextFormField(
                     onSaved: (value) {
-                      this._data.password = value;
+                      this.password = value;
                     },
                     obscureText: true, // Use secure text for passwords.
                     decoration: new InputDecoration(
