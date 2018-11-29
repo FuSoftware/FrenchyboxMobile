@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_controller.dart';
 import 'ponybox.dart';
+import 'widgets/channel_widget.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -22,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
         print('Could not login');
       }else{
         ponyboxTest(value['sid'], value['token']);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ChannelListWidget(null)));
       }
     });
   }

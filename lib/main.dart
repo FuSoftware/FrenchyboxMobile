@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'widgets/channel_widget.dart';
+import 'mockup.dart';
 
 void main() => runApp(new MyApp());
 
@@ -12,7 +14,15 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new LoginPage(title: 'Login to PonyBox'),
+      home: ponyboxTest(),
     );
+  }
+
+  Widget loginWidget(){
+    return new LoginPage(title: 'Login to PonyBox');
+  }
+
+  Widget ponyboxTest(){
+    return ChannelListWidget([Mockup.channel()]);
   }
 }

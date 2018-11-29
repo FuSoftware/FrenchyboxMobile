@@ -1,7 +1,9 @@
 import 'message.dart';
+import 'user.dart';
 
 class Channel {
   List<Message> messages;
+  List<User> users;
   String name;
   String label;
   bool locked;
