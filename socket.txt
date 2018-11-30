@@ -1,0 +1,65 @@
+- create : 
+	- param : 
+		user : int | l'id de l'utilisateur
+		token : string | token de l'utilisateur
+	- callback : 
+		valid : boolean | es ce que l'authentification a réussi ?
+		error : l'erreur potentiel
+		user : les données de l'utilisateur
+		
+- login :
+	- callback
+	
+- get-original-message : retourne un message sans formatage pour l'édition
+	- param :
+		channel : string | le name du channel
+		message : int | l'id du message
+	callback :
+		le message sans formatage. Attention ,si utilisé sur un message dont tu n'a pas le droit de voir, ma callback ne se déclenche pas
+		
+- get-older-messages : retourne les messages plus anciens d'un channel
+	- param :
+		channel : string | le name du channel
+		start : int |l'id du plus vieux message déjà chargé
+		
+- edit-message
+	- param :
+		channel : string | le name du channel
+		message : int |l'id du message
+		newMessage : string | le nouveau message
+		
+- delete-message
+	- param :
+		channel : string | le name du channel
+		message : int |l'id du message
+		
+- send-message
+	- param :
+		channel : string | le name du channel
+		message : string | le message
+		(optionnel) to : string | le destinataire
+	- callback :
+		valid : boolean | es ce que le message a bien été envoyé ?
+		error : l'erreur potentiel
+
+- join-new-channel
+	- param :
+		channel : string | le name du channel
+		
+- close-channel
+	- param :
+		channel : string | le name du channel
+		
+-refresh-channel-users : demande à récupérer la liste des utilisateur d'un channel
+	- param :
+		channel : string | le name du channel
+		
+- add-smiley : Ajoute un smiley perso
+	- param : 
+		text : string | le texte du smiley
+		url : string |l'url du smiley
+		(optionnel) old : stirng | l'ancien texte du smiley, dans le cas d'une édition
+		
+- remove-smiley : Retire un smiley perso
+	- param :
+		text : string | le text du smiley
