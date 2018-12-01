@@ -1,65 +1,44 @@
-import 'package:socket_io_client/socket_io_client.dart';
 import 'dart:io';
+import 'data/message.dart';
+import 'data/channel.dart';
+import 'data/user.dart';
 
-class Ponybox {
-  final String cb_url = 'https://www.frenchy-ponies.fr:2096';
-  Socket socket;
+abstract class Ponybox {
+  static const String cb_url = 'https://www.frenchy-ponies.fr:2096';
 
   String id;
   String token;
 
+  Map<String, Channel> channels;
+
   Ponybox(this.id,this.token);
 
-  socketStatus(dynamic data){
-    print('$data');
+  void connect();
+  void sendMessage(String channel, String message, String to);
+  void joinChannel(String channel);
+
+  void onMessage(Message message){
+    channels[message.channel].messages.add(message);
   }
 
-  connect() async {
-    socket = Io.socket(cb_url);
-
-    socket.on('login').listen((Event event){
-      print('login');
-    });
-
-    socket.on('login-success').listen((Event event){
-      print('login-success');
-    });
-
-    socket.on('join-channel').listen((Event event){
-      print('join-channel : ${event.args}');
-      //sendMessage(oChannel['name'], 'Flutter Test', null);
-    });
-
-    socket.on(Socket.eventConnect).listen((Event event){
-      print('Logged in : ${event.args}');
-      socket.emit('create', [id, token]).listen((List<dynamic> args){
-        print('Ack from creation : ${args}');
-        socket.emit('login', []);
-      });
-    });
-
-    socket.on(Socket.eventError).listen((Event event){
-      print('Error : ${event.args}');
-    });
-
-    socket.on(Socket.eventConnectTimeout).listen((Event event){
-      print('Connection Timeout : ${event.args}');
-    });
-
-    socket.on(Socket.eventConnectError).listen((Event event) {
-      print('Connection Error : ${event.args}');
-    });
-
-    socket.connect();
+  void onChannelJoined(Channel channel){
+    channels[channel.name] = channel;
   }
 
-  joinChannel(String channel){
-    socket.emit('send-message', [channel]);
+  void onOlderMessages(Channel channel, List<Message> messages){
+    channel.messages.insertAll(0, messages);
   }
 
-  sendMessage(String channel, String message, String to){
-    if(to == '') to = null;
-    socket.emit('send-message', [channel, message, to]);
+  void onNewChannels(List<Channel> channels){
+    channels.forEach((c){
+      if(this.channels.containsKey(c.name)){
+        this.channels[c.name] = c;
+      }
+    });
+  }
+
+  void onChannelUsers(Channel channel, List<User> users){
+    channel.users = users;
   }
 }
 

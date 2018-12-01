@@ -30,8 +30,8 @@ class ChannelListWidget extends StatelessWidget{
           ),
           title: Text('Channels'),
         ),
-        body: TabBarView(
-          children: getBody(),
+        body: ListView(
+          children: [],
         ),
       ),
     );
@@ -44,11 +44,11 @@ class ChannelWidget extends StatelessWidget {
   ChannelWidget(this.channel);
 
   Widget build(context) {
-		return new Row(
-      children: <Widget>[
-        MessageListWidget(this.channel.messages),
-        UserListWidget(this.channel.users),
-      ],
+		return Scaffold(
+      body:MessageListWidget(this.channel.messages),
+      drawer: Drawer(
+        child: UserListWidget(this.channel.users),
+      ),
     );
 	}
 }

@@ -8,13 +8,13 @@ class User {
   Map<String, bool> rights;
 
   User.fromJson(dynamic oJson){
-    this.uid = oJson['uid'];
+    this.uid = int.parse(oJson['uid']);
     this.username = oJson['username'];
     this.color = oJson['color'];
     this.avatar = oJson['avatar'];
     this.avatarUrl = "http://frenchy-ponies.fr/download/file.php?avatar=$avatar";
 
     this.isActive = oJson['isActive'];
-    this.rights = oJson['rights'];
+    this.rights = Map.from(oJson['rights']);
   }
 }

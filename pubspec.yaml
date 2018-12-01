@@ -17,13 +17,8 @@ dependencies:
     sdk: flutter
 
   flutter_socket_io:
-  adhara_socket_io:
-  cookie_jar:
-  socket_io_client:
-    git:
-      url: https://github.com/FuSoftware/socket_io_client
-
-  dio:
+  flutter_html_view:
+  flutter_html:
   http:
 
   # The following adds the Cupertino Icons font to your application.

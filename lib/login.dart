@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void ponyboxTest(String sid, String token){
-    Ponybox p = Ponybox(sid, token);
-    p.connect();
+    //Ponybox p = Ponybox(sid, token);
+    //p.connect();
   }
 
   @override
