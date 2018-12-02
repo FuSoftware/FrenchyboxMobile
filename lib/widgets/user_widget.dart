@@ -27,7 +27,7 @@ class UserWidget extends StatelessWidget {
   Widget build(context) {
 		return new Text(
       this.user.username,
-      //style: TextStyle(color: Color(int.parse(this.user.color, radix: 16))),
+      style: TextStyle(color: Color(this.user.color)),
     );
 	}
 }

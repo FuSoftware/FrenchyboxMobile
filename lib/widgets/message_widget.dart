@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/message.dart';
 import 'user_widget.dart';
-import 'package:flutter_html_view/flutter_html_view.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_html/flutter_html.dart';
 
 class MessageListWidget extends StatelessWidget{
@@ -23,38 +23,6 @@ class MessageListWidget extends StatelessWidget{
 	}
 }
 
-/*
-class MessageWidget extends StatelessWidget {
-  final Message message;
-
-  MessageWidget(this.message);
-
-  Widget build(context) {
-    return Row(
-      children:[
-        //Image.network(this.message.from.avatarUrl),
-        Column(
-          children:[
-            Row(
-              children: <Widget>[
-                  UserWidget(this.message.from),
-                  Text(DateTime.fromMillisecondsSinceEpoch(this.message.sendDate).toString())
-              ],
-            ),
-            Container (
-              width: MediaQuery.of(context).size.width*.95,
-              child: Html(
-                data: message.format, 
-              )
-            ),
-          ]
-        )
-      ]
-    );
-	}
-}
-*/
-
 class MessageWidget extends StatelessWidget {
   final Message message;
 
@@ -62,9 +30,36 @@ class MessageWidget extends StatelessWidget {
 
   Widget build(context) {
     return ListTile(
-      title: UserWidget(this.message.from), 
+      title: header(),
       subtitle: Html(data: message.format), 
-      //leading: Image.network(this.message.from.avatarUrl),
+      leading: userIcon(),
     );
 	}
+
+  Widget tileMessage(){
+    return ListTile(
+      title: header(),
+      subtitle: Html(data: message.format), 
+      leading: userIcon(),
+    );
+  }
+
+  Widget header(){
+    return Row(
+      children:[
+        Expanded(
+          child: UserWidget(this.message.from)
+        ),
+        Text(this.message.date)
+      ]
+    );
+  }
+
+  Widget userIcon() {
+    if(this.message.from.avatarUrl == ''){
+      return Text("");
+    }else{
+      return Image.network(this.message.from.avatarUrl, width: 25, height: 25,);
+    }
+  }
 }
